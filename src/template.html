@@ -1,25 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TodoList</title>
-</head>
-<body>
-    <header></header>
-    <div class="sidebar">
-        <div class="addbar"></div>
+  </head>
+  <body>
+    <header><div>TODO LIST</div></header>
+
+      <div class="sidebar">
+        <div class="addbar"><div>+</div></div>
         <div class="projectlist"></div>
         <!-- Use List of button then highlight on click
         This is Project List -->
-    </div>
-    <div class="content">
-        <div class="addtodobar">
-
-        </div>
-        <div class="todolist">
-            
-        </div>
+      </div>
+      <div class="content">
+        <div class="addtodobar"><div>+</div></div>
+        <div class="todolist"></div>
         <!-- List of Todolist based on project clicked on
         Adding Todo at the top
         Inside a Todo is a Delete at top and editing the Todo
@@ -27,7 +24,39 @@
         ,created date(not nullable)
         ,due-date (can be nullable)
         ,priority(higher number higher priority) -->
+      </div>
+    <dialog class="addTodoForm">
+        <div>
+        <label for="name">Title:</label>
+        <input type="text" placeholder="Title" name="title">
+        </div>
+        <div>
+        <label for="name">Description:</label>
+        <input type="text" placeholder="Title" name="description">
+        </div>
+        <div>
+        <label for="name">Due Date:</label>
+        <input type="text" placeholder="Title" name="duedate">
+        </div>
+        <div>
+        <label for="name">Priority:</label>
+        <input type="text" placeholder="Title" name="priority">
+        </div>
+        <div>
+        <label for="name">Notes:</label>
+        <input type="text" placeholder="Title" name="notes">
+        </div>
+        <button class="addTodo">Add</button>
+        <button class="closeForm">Close</button>
 
-    </div>
-</body>
+    </dialog>
+    <dialog class="addProjectForm">
+        <div>
+            <label for="name">Project Name:</label>
+            <input type="text" name="Name">
+        </div>
+        <button class="addProject">Add Projet</button>
+        <button class="closeForm">Close</button>
+    </dialog>
+  </body>
 </html>
