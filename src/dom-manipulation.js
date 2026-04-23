@@ -23,44 +23,51 @@ else
 
 
 // Adds The Project List in 
-export function addtoHTML(){
-listofProject.textContent=""
-listProject.forEach(node =>{
-    let project = document.createElement("div")
-    
-    project.textContent=node.name
-    
-    project.addEventListener("click",(e)=>{
-        showListofTodo(node)
-        toTodoForm(node)
+export function addtoHTML()
+{
+    listofProject.textContent=""
+    listProject.forEach(node =>{
+        let project = document.createElement("div")
+        
+        project.textContent=node.name
+        
+        project.addEventListener("click",(e)=>{
+            showListofTodo(node)
+            toTodoForm(node)
+        })
+        
+        listofProject.appendChild(project)
     })
-    
-    listofProject.appendChild(project)
-})
-addToProject()
+    addToProject()
 }
-function showListofTodo(node){
+
+// Shows List of Todo
+function showListofTodo(node)
+{
     listofTodo.textContent=""
     node.TodoList.forEach(todo=>{
-        TodoToHTML(todo)
+        TodoToHTML(todo,node)
     })
 }
 
 //ADDS THE LIST OF TODO PER PROJECT
-function TodoToHTML(todo){
+function TodoToHTML(todo,project)
+{
     let toDo=document.createElement("div")
     let title = document.createElement("div")
     let description=document.createElement("div")
     let dueDate = document.createElement("div")
     let priority =document.createElement("div")
     let notes=document.createElement("div")
-
+    let deleteButton=document.createElement("button")
+    let updateButton = document.createElement("button")
     title.textContent=todo.title
     description.textContent=todo.description
     dueDate.textContent=todo.dueDate
     priority.textContent=todo.priority
     notes.textContent=todo.notes
-
+    deleteButton.textContent="Delete ToDo"
+    updateButton.textContent="Update ToDo"
     toDo.className="TodoCard"
 
     toDo.appendChild(title)
@@ -68,35 +75,78 @@ function TodoToHTML(todo){
     toDo.appendChild(dueDate)
     toDo.appendChild(priority)
     toDo.appendChild(notes)
-    
+    toDo.appendChild(deleteButton)
+    toDo.appendChild(updateButton)
+
+    deleteButton.addEventListener("click",()=>{
+        project.deleteTodo(todo.id)
+        toDo.remove()
+    })
+
+    updateButton.addEventListener("click",()=>{
+        updateToDoForm(todo.id,
+            todo.title,todo.description,
+            todo.dueDate,todo.priority,
+            todo.notes,project)
+
+    })
+
     listofTodo.appendChild(toDo)
 }
+
+
+
+
 //ADDS A PROJECT VIA DIALOG
-function addToProject(){
-const addProj= document.querySelector(".addbar > div")
-const addProjForm = document.querySelector(".addProjectForm")
-const addProjButton = document.querySelector(".addProject")
-const closebutton = document.querySelector(".addProjectForm .closeForm")
-const projectName=document.querySelector(".addProjectForm [name=\"Name\"]")
+function addToProject()
+{
+    const addProj= document.querySelector(".addbar > div")
+    const addProjButton = document.querySelector(".addProject")
+    const closebutton = document.querySelector(".addProjectForm .closeForm")
+    removeListeners()
+    addProj.addEventListener("click",showAddProjForm)
+    addProjButton.addEventListener("click",addProjectToTheList)
+    closebutton.addEventListener("click",closeAddProjectForm)
 
-addProj.addEventListener("click",()=>{
+}
+
+function removeListeners()
+{
+    const addProj= document.querySelector(".addbar > div")
+    const addProjButton = document.querySelector(".addProject")
+    const closebutton = document.querySelector(".addProjectForm .closeForm")
+
+    addProj.removeEventListener("click",showAddProjForm)
+    addProjButton.removeEventListener("click",addProjectToTheList)
+    closebutton.removeEventListener("click",closeAddProjectForm)
+}
+
+
+function showAddProjForm()
+{
+    const addProjForm = document.querySelector(".addProjectForm")
     addProjForm.showModal()
-})
+}
 
-addProjButton.addEventListener("click",()=>{
+function addProjectToTheList()
+{
+    const projectName=document.querySelector(".addProjectForm [name=\"Name\"]")
+    const addProjForm = document.querySelector(".addProjectForm")
+
     addProject(projectName.value)
     listProject=addFunctions(JSON.parse(localStorage.getItem("projectList")))
     addtoHTML()
     addProjForm.close()
-
-})
-
-closebutton.addEventListener("click",()=>{
-    addProjForm.close()
-})
-
 }
-function toTodoForm(project){
+
+function closeAddProjectForm()
+{
+    const addProjForm = document.querySelector(".addProjectForm")
+    addProjForm.close()
+}
+
+function toTodoForm(project)
+{
     const addToDoForm = document.querySelector(".addTodoForm")
     const addtodobar = document.querySelector(".addtodobar")
     const addTodoButton = document.querySelector(".addTodo")
@@ -117,7 +167,11 @@ function toTodoForm(project){
     })
 
 }
-function addTodo(e){
+
+
+
+function addTodo(e)
+{
     let title=document.querySelector(".addTodoForm [name=\"title\"]").value
     let description=document.querySelector(".addTodoForm [name=\"description\"]").value
     let duedate=document.querySelector(".addTodoForm [name=\"duedate\"]").value
@@ -131,4 +185,93 @@ function addTodo(e){
 function showTodoForm(e){
     console.log(e.currentTarget.project.name)
     e.currentTarget.addToDoForm.showModal()
+}
+
+
+function updateToDoForm(id,title,description,dueDate,priority,notes,project){
+    const body = document.querySelector("body")
+    let toDoDialog=document.createElement("dialog")
+
+    let titleLabel = document.createElement("label")
+    let descriptionLabel = document.createElement("label")
+    let dueDateLabel = document.createElement("label")
+    let priorityLabel = document.createElement("label")
+    let notesLabel = document.createElement("label")
+
+    let titleInput = document.createElement("input")
+    let descriptionInput = document.createElement("input")
+    let dueDateInput = document.createElement("input")
+    let priorityInput = document.createElement("input")
+    let notesInput = document.createElement("input")
+
+    let titleDiv = document.createElement("div")
+    let descriptionDiv =document.createElement("div")
+    let dueDateDiv = document.createElement("div")
+    let priorityDiv =document.createElement("div")
+    let notesDiv =document.createElement("div")
+
+    let closeButton = document.createElement("button")
+    let updateButton = document.createElement("button")
+
+    titleLabel.textContent="Title:"
+    descriptionLabel.textContent="Description:"
+    dueDateLabel.textContent="Due Date:"
+    priorityLabel.textContent="Priority:"
+    notesInput.textContent="Notes:"
+
+
+    titleInput.value=title
+    descriptionInput.value=description
+    dueDateInput.value=dueDate
+    priorityInput.value=priority
+    notesInput.value=notes
+
+    updateButton.textContent="Update"
+
+    titleDiv.appendChild(titleLabel)
+    titleDiv.appendChild(titleInput)
+
+    descriptionDiv.appendChild(descriptionLabel)
+    descriptionDiv.appendChild(descriptionInput)
+
+    dueDateDiv.appendChild(dueDateLabel)
+    dueDateDiv.appendChild(dueDateInput)
+
+    priorityDiv.appendChild(priorityLabel)
+    priorityDiv.appendChild(priorityInput)
+
+    notesDiv.appendChild(notesLabel)
+    notesDiv.appendChild(notesInput)
+
+    toDoDialog.appendChild(titleDiv)
+    toDoDialog.appendChild(descriptionDiv)
+    toDoDialog.appendChild(dueDateDiv)
+    toDoDialog.appendChild(priorityDiv)
+    toDoDialog.appendChild(notesDiv)
+    toDoDialog.appendChild(updateButton)
+    toDoDialog.appendChild(closeButton)
+    body.appendChild(toDoDialog)
+
+    toDoDialog.showModal()
+
+    closeButton.addEventListener("click",()=>{
+        toDoDialog.close()
+        toDoDialog.remove()
+    })
+
+    updateButton.addEventListener("click",()=>{
+        project.updateTodo(id
+            ,titleInput.value
+            ,descriptionInput.value
+            ,dueDateInput.value
+            ,priorityInput.value
+            ,notesInput.value)
+        console.log(project.TodoList[0].title)
+        showListofTodo(project)
+        toDoDialog.close()
+        toDoDialog.remove()
+
+    })
+
+
 }

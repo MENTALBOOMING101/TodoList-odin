@@ -40,7 +40,7 @@ class Todo {
         this.TodoList.push(new Todo(title,description,dueDate,priority,notes))
         localStorage.setItem("projectList",JSON.stringify(projectList))
       }
-      node.deleteTodo=function(){
+      node.deleteTodo=function(id){
         this.TodoList=this.TodoList.filter((element)=> !(element.id==id))
         localStorage.setItem("projectList",JSON.stringify(projectList))
       }
