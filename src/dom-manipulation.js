@@ -1,9 +1,10 @@
 import {addProject,addFunctions} from "./logic.js"
+import {compareAsc} from "date-fns"
 
 const sidebar = document.querySelector(".sidebar")
 const listofProject= document.querySelector(".projectlist")
 const listofTodo = document.querySelector(".todolist")
-
+const sort = document.querySelector("#sort")
 let listProject
 
 if(localStorage.getItem("projectList"))
@@ -16,9 +17,9 @@ else
 {
     addProject("Default")
     listProject=addFunctions(JSON.parse(localStorage.getItem("projectList")))
-    listProject[0].addNewTodo("title","description","dueDate","priority","notes")
-    listProject[0].addNewTodo("title1","description1","dueDate1","priority1","notes1")
-    listProject[0].addNewTodo("title2","description2","dueDate2","priority2","notes2")
+    listProject[0].addNewTodo("title","description","2004-02-04","1","notes")
+    listProject[0].addNewTodo("title1","description1","2004-02-02","2","notes1")
+    listProject[0].addNewTodo("title2","description2","2004-02-03","3","notes2")
 }
 
 
@@ -27,29 +28,68 @@ export function addtoHTML()
 {
     listofProject.textContent=""
     listProject.forEach(node =>{
+        let projectContainer=document.createElement("div")
         let project = document.createElement("div")
+        let deleteAndUpdateContainer = document.createElement("span")
+        let projectDelete = document.createElement("button")
+        let projectUpdate = document.createElement("button")
         
         project.textContent=node.name
+        projectDelete.textContent="Delete"
+        projectUpdate.textContent="Update"
         
-        project.addEventListener("click",(e)=>{
+        projectContainer.addEventListener("click",(e)=>{
+            
+            sort.addEventListener("change",()=>{
+                if(sort.value=="bypriority")
+                {
+                    console.log("was here")
+                    node.TodoList.sort(sortByPriority)
+                    showListofTodo(node)
+                }
+                else
+                {
+                    console.log("was here in bydates" )
+                    node.TodoList.sort(sortByDate)
+                    showListofTodo(node)
+                }
+            })
+
             showListofTodo(node)
             toTodoForm(node)
         })
+        projectDelete.addEventListener("click",()=>{
+            listProject.deleteProject(node.projectId)
+            projectContainer.remove()
+        })
+        projectUpdate.addEventListener("click",()=>{
+            updateProjectForm(node.projectId,node.name,project)
+        })
+        deleteAndUpdateContainer.appendChild(projectUpdate)
+        deleteAndUpdateContainer.appendChild(projectDelete)
+        projectContainer.appendChild(project)
+        projectContainer.appendChild(deleteAndUpdateContainer)
         
-        listofProject.appendChild(project)
+        listofProject.appendChild(projectContainer)
     })
     addToProject()
 }
 
 // Shows List of Todo
 function showListofTodo(node)
-{
+{   
     listofTodo.textContent=""
     node.TodoList.forEach(todo=>{
         TodoToHTML(todo,node)
     })
 }
 
+function sortByPriority(todoA,todoB){
+    return todoA.priority<todoB.priority
+}
+function sortByDate(todoA,todoB){
+    return compareAsc(todoA.dueDate,todoB.dueDate) 
+}
 //ADDS THE LIST OF TODO PER PROJECT
 function TodoToHTML(todo,project)
 {
@@ -148,7 +188,7 @@ function closeAddProjectForm()
 function toTodoForm(project)
 {
     const addToDoForm = document.querySelector(".addTodoForm")
-    const addtodobar = document.querySelector(".addtodobar")
+    const addtodobar = document.querySelector(".addtodobar > div")
     const addTodoButton = document.querySelector(".addTodo")
     const closebutton=document.querySelector(".addTodoForm .closeForm")
     
@@ -175,7 +215,7 @@ function addTodo(e)
     let title=document.querySelector(".addTodoForm [name=\"title\"]").value
     let description=document.querySelector(".addTodoForm [name=\"description\"]").value
     let duedate=document.querySelector(".addTodoForm [name=\"duedate\"]").value
-    let priority=document.querySelector(".addTodoForm [name=\"notes\"]").value
+    let priority=document.querySelector(".addTodoForm [name=\"priority\"]").value
     let notes=document.querySelector(".addTodoForm [name=\"notes\"]").value
     e.currentTarget.project.addNewTodo(title,description,duedate,priority,notes)
     e.currentTarget.addToDoForm.close()
@@ -217,8 +257,12 @@ function updateToDoForm(id,title,description,dueDate,priority,notes,project){
     descriptionLabel.textContent="Description:"
     dueDateLabel.textContent="Due Date:"
     priorityLabel.textContent="Priority:"
-    notesInput.textContent="Notes:"
+    notesLabel.textContent="Notes:"
 
+    dueDateInput.setAttribute("type","date")
+    priorityInput.setAttribute("type","number")
+    priorityInput.setAttribute("min","1")
+    priorityInput.setAttribute("max","10")
 
     titleInput.value=title
     descriptionInput.value=description
@@ -227,7 +271,7 @@ function updateToDoForm(id,title,description,dueDate,priority,notes,project){
     notesInput.value=notes
 
     updateButton.textContent="Update"
-
+    closeButton.textContent="Close"
     titleDiv.appendChild(titleLabel)
     titleDiv.appendChild(titleInput)
 
@@ -274,4 +318,46 @@ function updateToDoForm(id,title,description,dueDate,priority,notes,project){
     })
 
 
+}
+
+function updateProjectForm(id,name,project){
+    const body = document.querySelector("body")
+    let projectDialog=document.createElement("dialog")
+    let nameLabel = document.createElement("label")
+    let nameInput = document.createElement("input")
+    let nameDiv = document.createElement("div")
+    let closeButton = document.createElement("button")
+    let updateButton = document.createElement("button")
+    
+    nameLabel.textContent="Name:"
+    nameInput.value=name
+
+    closeButton.textContent="Close"
+    updateButton.textContent="Update"
+
+    nameDiv.appendChild(nameLabel)
+    nameDiv.appendChild(nameInput)
+
+    projectDialog.appendChild(nameDiv)
+    projectDialog.appendChild(updateButton)
+    projectDialog.appendChild(closeButton)
+
+    body.appendChild(projectDialog)
+    
+
+
+    projectDialog.showModal()
+
+    closeButton.addEventListener("click",()=>{
+        projectDialog.close()
+        projectDialog.remove()
+    })
+
+    updateButton.addEventListener("click",()=>{
+        listProject.updateName(id,nameInput.value)
+        project.textContent=nameInput.value
+        projectDialog.close()
+        projectDialog.remove()
+
+    })
 }

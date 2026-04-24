@@ -11,19 +11,16 @@
       <div class="sidebar">
         <div class="addbar"><div>+</div></div>
         <div class="projectlist"></div>
-        <!-- Use List of button then highlight on click
-        This is Project List -->
       </div>
       <div class="content">
-        <div class="addtodobar"><div>+</div></div>
+        <div class="addtodobar">
+          <select name="sort" id="sort">
+            <option value="bypriority">Sort by priority</option>
+            <option value="bydates">Sort by dates</option>
+          </select>
+          <div>+</div>
+        </div>
         <div class="todolist"></div>
-        <!-- List of Todolist based on project clicked on
-        Adding Todo at the top
-        Inside a Todo is a Delete at top and editing the Todo
-        It as title (not nullable),description (can be empty)
-        ,created date(not nullable)
-        ,due-date (can be nullable)
-        ,priority(higher number higher priority) -->
       </div>
     <dialog class="addTodoForm">
         <div>
@@ -32,15 +29,15 @@
         </div>
         <div>
         <label for="name">Description:</label>
-        <input type="text" placeholder="Title" name="description">
+        <input type="text" placeholder="Something that describe this todo" name="description">
         </div>
         <div>
         <label for="name">Due Date:</label>
-        <input type="text" placeholder="Title" name="duedate">
+        <input type="date" name="duedate">
         </div>
         <div>
-        <label for="name">Priority:</label>
-        <input type="text" placeholder="Title" name="priority">
+        <label for="name">Priority (1-10):</label>
+        <input type="number" min="1" max="10"  name="priority">
         </div>
         <div>
         <label for="name">Notes:</label>
@@ -55,7 +52,7 @@
             <label for="name">Project Name:</label>
             <input type="text" name="Name">
         </div>
-        <button class="addProject">Add Projet</button>
+        <button class="addProject">Add Project</button>
         <button class="closeForm">Close</button>
     </dialog>
   </body>

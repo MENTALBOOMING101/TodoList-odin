@@ -1,6 +1,7 @@
 
 class Project {
   constructor(name) {
+    this.projectId=Math.floor(Math.random()*100000000000)
     this.name=name
     this.TodoList=[]
   }
@@ -33,7 +34,15 @@ class Todo {
   }
   
   export function addFunctions(projectList){
-    
+    projectList.updateName= function(id,name){
+      let projectIndex=projectList.findIndex((project)=>project.id=id)
+      projectList[projectIndex].name=name
+      localStorage.setItem("projectList",JSON.stringify(projectList))
+    }
+    projectList.deleteProject = function(id){
+      projectList=projectList.filter((node)=>!(node.id))
+      localStorage.setItem("projectList",JSON.stringify(projectList))
+    }
     projectList.forEach((node)=>{
 
       node.addNewTodo=function(title,description,dueDate,priority,notes){
@@ -45,7 +54,7 @@ class Todo {
         localStorage.setItem("projectList",JSON.stringify(projectList))
       }
       node.updateTodo=function(id,title,description,dueDate,priority,notes){
-        let todoIndex=this.TodoList.findIndex((e)=>e.id==id)
+        let todoIndex=this.TodoList.findIndex((todo)=>todo.id==id)
         this.TodoList[todoIndex].title=title
         this.TodoList[todoIndex].description=description
         this.TodoList[todoIndex].dueDate=dueDate
