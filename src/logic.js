@@ -35,12 +35,12 @@ class Todo {
   
   export function addFunctions(projectList){
     projectList.updateName= function(id,name){
-      let projectIndex=projectList.findIndex((project)=>project.id=id)
+      let projectIndex=projectList.findIndex((project)=>project.id==id)
       projectList[projectIndex].name=name
       localStorage.setItem("projectList",JSON.stringify(projectList))
     }
     projectList.deleteProject = function(id){
-      projectList=projectList.filter((node)=>!(node.id))
+      projectList=projectList.filter((node)=>!(node.projectId==id))
       localStorage.setItem("projectList",JSON.stringify(projectList))
     }
     projectList.forEach((node)=>{
