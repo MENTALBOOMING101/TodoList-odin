@@ -43,24 +43,23 @@ export function addtoHTML()
             sort.addEventListener("change",()=>{
                 if(sort.value=="bypriority")
                 {
-                    console.log("was here")
                     node.TodoList.sort(sortByPriority)
                     showListofTodo(node)
                 }
                 else
                 {
-                    console.log("was here in bydates" )
                     node.TodoList.sort(sortByDate)
                     showListofTodo(node)
                 }
             })
-
+            console.log(listofTodo.textContent)
             showListofTodo(node)
-            toTodoForm(node)
+            addTodoForm(node)
         })
         projectDelete.addEventListener("click",()=>{
             listProject.deleteProject(node.projectId)
             projectContainer.remove()
+            
         })
         projectUpdate.addEventListener("click",()=>{
             updateProjectForm(node.projectId,node.name,project)
@@ -72,8 +71,12 @@ export function addtoHTML()
         
         listofProject.appendChild(projectContainer)
     })
+ 
     addToProject()
 }
+
+listofTodo.addEventListener("click",()=>{console.log(listofTodo.textContent)})
+
 
 // Shows List of Todo
 function showListofTodo(node)
@@ -101,6 +104,7 @@ function TodoToHTML(todo,project)
     let notes=document.createElement("div")
     let deleteButton=document.createElement("button")
     let updateButton = document.createElement("button")
+
     title.textContent=todo.title
     description.textContent=todo.description
     dueDate.textContent=todo.dueDate
@@ -185,15 +189,14 @@ function closeAddProjectForm()
     addProjForm.close()
 }
 
-function toTodoForm(project)
+function addTodoForm(project)
 {
     const addToDoForm = document.querySelector(".addTodoForm")
     const addtodobar = document.querySelector(".addtodobar > div")
     const addTodoButton = document.querySelector(".addTodo")
     const closebutton=document.querySelector(".addTodoForm .closeForm")
     
-    addtodobar.removeEventListener("click",showTodoForm)
-    addTodoButton.removeEventListener("click",addTodo)
+    removeAddTodoListener()
     
     addtodobar.project=project
     addtodobar.addToDoForm=addToDoForm
@@ -207,7 +210,14 @@ function toTodoForm(project)
     })
 
 }
+function removeAddTodoListener(){
+    console.log("was Here")
+    const addtodobar = document.querySelector(".addtodobar > div")
+    const addTodoButton = document.querySelector(".addTodo")
 
+    addtodobar.removeEventListener("click",showTodoForm)
+    addTodoButton.removeEventListener("click",addTodo)
+}
 
 
 function addTodo(e)
