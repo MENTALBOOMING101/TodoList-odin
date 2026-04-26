@@ -6,54 +6,67 @@
     <title>TodoList</title>
   </head>
   <body>
-    <header><div>TODO LIST</div></header>
+    <!-- <header><div>TODO LIST</div></header> -->
 
-      <div class="sidebar">
-        <div class="addbar"><div>+</div></div>
-        <div class="projectlist"></div>
+    <div class="sidebar">
+      <div class="addbar"><div>+</div></div>
+      <div class="projectlist"></div>
+    </div>
+    <div class="content">
+      <div class="addtodobar">
+        <select name="sort" id="sort">
+          <option value="bypriority">Sort by priority</option>
+          <option value="bydates">Sort by dates</option>
+        </select>
+        <div>+</div>
       </div>
-      <div class="content">
-        <div class="addtodobar">
-          <select name="sort" id="sort">
-            <option value="bypriority">Sort by priority</option>
-            <option value="bydates">Sort by dates</option>
-          </select>
-          <div>+</div>
-        </div>
-        <div class="todolist"></div>
-      </div>
-    <dialog class="addTodoForm">
-        <div>
-        <label for="name">Title:</label>
-        <input type="text" placeholder="Title" name="title">
-        </div>
-        <div>
-        <label for="name">Description:</label>
-        <input type="text" placeholder="Something that describe this todo" name="description">
-        </div>
-        <div>
-        <label for="name">Due Date:</label>
-        <input type="date" name="duedate">
-        </div>
-        <div>
-        <label for="name">Priority (1-10):</label>
-        <input type="number" min="1" max="10"  name="priority">
-        </div>
-        <div>
-        <label for="name">Notes:</label>
-        <input type="text" placeholder="Title" name="notes">
-        </div>
-        <button class="addTodo">Add</button>
-        <button class="closeForm">Close</button>
+      <div class="todolist"></div>
+    </div>
 
+
+    <dialog class="addTodoForm toDoDialog">
+      <div class="todoTitle">
+        <input type="text" placeholder="Title" name="title" class="todoTitle" />
+      </div>
+      <div class="todoDescription">
+        <input
+          type="text"
+          placeholder="Something that describe this todo"
+          name="description"
+          class="todoDescription"
+        />
+      </div>
+      <div class="todoDueDate">
+        <input type="date" name="duedate" class="todoDueDate" />
+      </div>
+      <div class="todoPriority">
+        <input
+          type="number"
+          min="1"
+          max="10"
+          name="priority"
+          class="todoPriority"
+        />
+      </div>
+
+      <textarea
+        type="text"
+        placeholder="Title"
+        name="notes"
+        class="todoNotes"
+      ></textarea>
+
+      <button class="addTodo">Add</button>
+      <button class="closeForm">Close</button>
     </dialog>
+    
     <dialog class="addProjectForm">
-        <div>
-            <label for="name">Project Name:</label>
-            <input type="text" name="Name">
-        </div>
-        <button class="addProject">Add Project</button>
-        <button class="closeForm">Close</button>
+      <div>
+        <label for="name">Project Name:</label>
+        <input type="text" name="Name" />
+      </div>
+      <button class="addProject">Add Project</button>
+      <button class="closeForm">Close</button>
     </dialog>
   </body>
 </html>

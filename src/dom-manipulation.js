@@ -17,9 +17,18 @@ else
 {
     addProject("Default")
     listProject=addFunctions(JSON.parse(localStorage.getItem("projectList")))
-    listProject[0].addNewTodo("title","description","2004-02-04","1","notes")
+    listProject[0].addNewTodo("title","description","2004-02-04","1",` Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta id eros quis suscipit. Proin ligula ante, tincidunt vel posuere non, condimentum ac ligula. Donec nec eleifend enim. Sed ultricies arcu nec lectus tempor, vitae semper turpis viverra. Nam mattis turpis lacus, vel dignissim magna feugiat id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc nec rutrum augue. Maecenas tincidunt accumsan quam et egestas. Maecenas placerat eu libero quis pulvinar. Quisque tempus, metus eu rutrum tempor, lacus massa efficitur massa, feugiat tincidunt quam turpis in velit. Fusce bibendum justo eget mauris tristique scelerisque. Vivamus consequat, velit vitae aliquet aliquam, mauris erat gravida mauris, ac finibus nisi nunc ac odio. Vestibulum ac purus ut eros condimentum auctor id vel felis.
+
+Pellentesque consequat justo sed faucibus lacinia. Integer vitae tellus euismod, vehicula orci vel, sodales nunc. Aenean sed urna ac odio tincidunt rutrum. Sed imperdiet quam sapien, vitae vestibulum massa ornare pulvinar. Nullam vel ullamcorper urna. Phasellus imperdiet ligula luctus egestas condimentum. Aliquam erat volutpat. Fusce et ante non orci facilisis vehicula. Donec hendrerit vehicula tempor. Proin eget mauris vel dui ornare ultrices. Praesent placerat ipsum id sodales pretium. Quisque fermentum, enim sed iaculis ultrices, ligula metus interdum velit, at porttitor est sapien a nunc. Etiam faucibus tempus nibh in placerat.
+
+Nulla nec sodales nulla. Nunc vitae sapien nunc. Duis pellentesque ornare aliquam. Fusce quis laoreet tellus, a iaculis velit. Quisque et consequat lorem. Nulla facilisi. Nulla gravida, ante et egestas dignissim, nisi sem iaculis elit, quis placerat ligula sem eu nunc. Etiam vel mattis velit, sed euismod quam. Proin eu velit odio. Fusce ac nulla metus. Aenean varius orci in lacus maximus dapibus. Proin nec sem condimentum, cursus est pharetra, posuere enim. Nullam in ligula vitae purus laoreet sollicitudin. Nullam in mollis lorem. Sed eget dui sit amet sapien sagittis congue nec et leo. Nunc euismod eros velit, ut rhoncus augue lacinia non.
+
+Suspendisse non euismod risus. Quisque est diam, scelerisque et dui et, ultricies tempor risus. In dignissim euismod dui, vel auctor libero maximus ac. Phasellus gravida ut erat eu posuere. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean felis mi, tempus sed tempus at, aliquam sed eros. Vivamus dapibus turpis ut ex ornare, vitae feugiat nulla condimentum. Proin elementum dignissim enim nec ultrices. Duis euismod sapien non massa dapibus laoreet.
+
+Cras ut sapien quis augue sollicitudin finibus at id sem. Suspendisse suscipit volutpat lectus, et mollis est tempor quis. Duis in faucibus odio, et porta risus. Quisque malesuada ligula sit amet risus sollicitudin suscipit. Proin sed sapien tempus, sollicitudin sapien a, tempus lacus. Integer id nibh non justo tristique elementum. Nam non aliquam nisl. Donec facilisis libero nec sollicitudin condimentum. Mauris in auctor purus, a ultrices lacus. In in urna malesuada velit efficitur facilisis nec porttitor augue. Suspendisse enim risus, aliquam vel pharetra eu, posuere nec urna. Aenean at eros semper, malesuada felis ac, elementum velit. Aenean et laoreet magna. Nullam maximus dictum aliquam. `)
     listProject[0].addNewTodo("title1","description1","2004-02-02","2","notes1")
     listProject[0].addNewTodo("title2","description2","2004-02-03","3","notes2")
+
 }
 
 
@@ -38,7 +47,13 @@ export function addtoHTML()
         projectDelete.textContent="Delete"
         projectUpdate.textContent="Update"
         
-        projectContainer.addEventListener("click",(e)=>{
+        projectContainer.className="projectContainer"
+        deleteAndUpdateContainer.className="deleteAndUpdateContainer"
+        project.className="projectName"
+        projectDelete.className="deleteProject"
+        projectUpdate.className="updateProject"
+
+        project.addEventListener("click",(e)=>{
             
             sort.addEventListener("change",()=>{
                 if(sort.value=="bypriority")
@@ -58,6 +73,7 @@ export function addtoHTML()
         })
         projectDelete.addEventListener("click",()=>{
             listProject.deleteProject(node.projectId)
+            listofTodo.textContent=""
             projectContainer.remove()
             
         })
@@ -113,6 +129,14 @@ function TodoToHTML(todo,project)
     deleteButton.textContent="Delete ToDo"
     updateButton.textContent="Update ToDo"
     toDo.className="TodoCard"
+
+    title.className="todoTitle";
+    description.className="todoDescription";
+    dueDate.className="todoDueDate";
+    priority.className="todoPriority";
+    notes.className="todoNotes";
+    deleteButton.className="todoDelete"
+    updateButton.className="todoUpdate"
 
     toDo.appendChild(title)
     toDo.appendChild(description)
@@ -242,33 +266,49 @@ function updateToDoForm(id,title,description,dueDate,priority,notes,project){
     const body = document.querySelector("body")
     let toDoDialog=document.createElement("dialog")
 
-    let titleLabel = document.createElement("label")
-    let descriptionLabel = document.createElement("label")
-    let dueDateLabel = document.createElement("label")
-    let priorityLabel = document.createElement("label")
-    let notesLabel = document.createElement("label")
+    // let titleLabel = document.createElement("label")
+    // let descriptionLabel = document.createElement("label")
+    // let dueDateLabel = document.createElement("label")
+    // let priorityLabel = document.createElement("label")
+    // let notesLabel = document.createElement("label")
 
     let titleInput = document.createElement("input")
     let descriptionInput = document.createElement("input")
     let dueDateInput = document.createElement("input")
     let priorityInput = document.createElement("input")
-    let notesInput = document.createElement("input")
+    let notesInput = document.createElement("textarea")
 
     let titleDiv = document.createElement("div")
     let descriptionDiv =document.createElement("div")
     let dueDateDiv = document.createElement("div")
     let priorityDiv =document.createElement("div")
-    let notesDiv =document.createElement("div")
 
     let closeButton = document.createElement("button")
     let updateButton = document.createElement("button")
 
-    titleLabel.textContent="Title:"
-    descriptionLabel.textContent="Description:"
-    dueDateLabel.textContent="Due Date:"
-    priorityLabel.textContent="Priority:"
-    notesLabel.textContent="Notes:"
+    // titleLabel.textContent="Title:"
+    // descriptionLabel.textContent="Description:"
+    // dueDateLabel.textContent="Due Date:"
+    // priorityLabel.textContent="Priority:"
+    // notesLabel.textContent="Notes:"
 
+    titleInput.className="todoTitle";
+    descriptionInput.className="todoDescription";
+    dueDateInput.className="todoDueDate";
+    priorityInput.className="todoPriority";
+    notesInput.className="todoNotes";
+
+    toDoDialog.className="TodoCard";
+    toDoDialog.classList.add("toDoDialog")
+    updateButton.className="todoUpdate"
+    closeButton.className="todoDelete"
+
+    titleDiv.className="todoTitle";
+    descriptionDiv.className="todoDescription";
+    dueDateDiv.className="todoDueDate";
+    priorityDiv.className="todoPriority";
+
+    
     dueDateInput.setAttribute("type","date")
     priorityInput.setAttribute("type","number")
     priorityInput.setAttribute("min","1")
@@ -282,26 +322,27 @@ function updateToDoForm(id,title,description,dueDate,priority,notes,project){
 
     updateButton.textContent="Update"
     closeButton.textContent="Close"
-    titleDiv.appendChild(titleLabel)
+    
+    // titleDiv.appendChild(titleLabel)
     titleDiv.appendChild(titleInput)
 
-    descriptionDiv.appendChild(descriptionLabel)
+    // descriptionDiv.appendChild(descriptionLabel)
     descriptionDiv.appendChild(descriptionInput)
 
-    dueDateDiv.appendChild(dueDateLabel)
+    // dueDateDiv.appendChild(dueDateLabel)
     dueDateDiv.appendChild(dueDateInput)
 
-    priorityDiv.appendChild(priorityLabel)
+    // priorityDiv.appendChild(priorityLabel)
     priorityDiv.appendChild(priorityInput)
 
-    notesDiv.appendChild(notesLabel)
-    notesDiv.appendChild(notesInput)
+    // notesDiv.appendChild(notesLabel)
+    //notesDiv.appendChild(notesInput)
 
     toDoDialog.appendChild(titleDiv)
     toDoDialog.appendChild(descriptionDiv)
     toDoDialog.appendChild(dueDateDiv)
     toDoDialog.appendChild(priorityDiv)
-    toDoDialog.appendChild(notesDiv)
+    toDoDialog.appendChild(notesInput)
     toDoDialog.appendChild(updateButton)
     toDoDialog.appendChild(closeButton)
     body.appendChild(toDoDialog)

@@ -1,6 +1,6 @@
-*{
+/* *{
     outline:red 1px solid
-}
+} */
 body{
     display: grid;
     /* grid-template-areas: "header header header header"
@@ -16,21 +16,25 @@ body{
     align-items: stretch;
 
 }
-header{
+/* header{
    grid-row: 1/2;
    grid-column: 1/5;
-}
+} */
 .sidebar{
-    grid-row:2/5;
+    grid-row:1/5;
     grid-column: 1/2;
 
 }
 .content{
 
-    grid-row: 2/5;
+    grid-row: 1/5;
     grid-column: 2/5;
 
 }
+
+
+/* DESIGNS */
+
 .addbar{
     display: flex;
     justify-content: end;
@@ -41,11 +45,16 @@ header{
     padding: 5px 10px;
     margin: 5px;
     border: 1px solid;
+
 }
 .addtodobar{
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
+    border: black solid 1px;
+    border-left: 0;
+    background-color: gainsboro;
+
 }
 .addtodobar > div{
     border-radius: 5px;
@@ -53,23 +62,33 @@ header{
     margin: 5px;
     border: 1px solid;
 }
-
+#sort{
+    margin-left: 10px;
+}
 .sidebar{
     background-color: gainsboro;
+    border: 1px solid black;
 }
 .addbar{
     background-color: #cfcfcf;
+    border: 1px solid black;
+    border-right: 0;
+    border-top: 0;
 }
-.addbar >div{
+.addbar >div:hover{
     background-color: #c3c3c3;
 }
+.addtodobar >div:hover{
+    background-color: #c3c3c3;
+}
+
 .todolist{
     display: grid;
     grid-template-columns: repeat(2,1fr);
     gap: 15px;
-    margin: 15px;
+    padding: 5px;
     overflow:scroll;
-    height: calc(100% - 5em) ;
+    height: calc(100% - 3em) ;
     box-sizing: border-box;
 }
 .TodoCard{
@@ -78,4 +97,124 @@ header{
 }
 .content{
        height: 100%;
+}
+
+.projectContainer{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: gray solid 1px;
+}
+.projectName{
+    padding: 15px;
+    padding-left: 5px;
+    flex:1
+}
+.deleteAndUpdateContainer{
+    display: flex;
+    gap:15px;
+    padding-right: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/* TODO LISTS DESIGN */
+.TodoCard{
+    border: gray solid 5px;
+    display: grid;
+    grid-template-areas: "title title title title title"
+                         "desc desc desc desc desc"
+                         ". . . upd del"
+                         "note note note note note"
+                         "note note note note note"
+                         "note note note note note"
+                         "note note note note note"
+                        "priority priority . date date";
+    grid-template-rows: 2em 1.2em 30px 1fr 1fr 50px;
+    gap: 5px;
+    
+
+
+}
+.addTodoForm:not([open]){
+display: none;
+}
+.addTodoForm{
+    border: gray solid 5px;
+    display: grid;
+    grid-template-areas: "title title title title title"
+                         "desc desc desc desc desc"
+                         ". . . upd del"
+                         "note note note note note"
+                         "note note note note note"
+                         "note note note note note"
+                         "note note note note note"
+                        "priority priority . date date";
+    grid-template-rows: 2em 1.2em 30px 1fr 1fr 50px;
+    gap: 5px;
+}
+.todoTitle{
+    grid-area: title;
+    font-weight: bold;
+    font-size: large;
+    width: 100%;
+}
+.todoDescription{
+    grid-area: desc;
+    font-style: italic;
+    font-size: small;
+    color: #424242;
+    border-bottom: #424242 solid 1px;
+    width: 100%;
+}
+
+/* .todoDueDate::before{
+    content: "Due Date: ";
+} */
+.todoDueDate{
+    grid-area: date;
+    font-weight: bold;
+    font-size: small;
+    color: #424242;
+    text-align: end;
+}
+.todoDueDate::before{
+    content: "Due Date: ";
+}
+.todoPriority{    
+    grid-area: priority;
+    font-weight: bold;
+    font-size: small;
+    color: #424242;
+}
+.todoPriority::before{
+    content: "Priority: ";
+}
+.todoNotes{
+    grid-area: note;
+    min-height: 100px;
+    height: 200px;
+    max-height: 200px;
+    overflow: auto;
+    background-color:gainsboro;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: justify;
+    text-justify: inter-word;
+    box-shadow: 2px 2px 2px gray;
+    border: #424242 solid 1px;
+}
+.todoDelete{
+    grid-area: del;
+}
+.todoUpdate{
+    grid-area: upd;
+}
+.addTodo{
+grid-area: upd;
+}
+.addTodoForm >.closeForm{
+grid-area: del;
+}
+.toDoDialog{
+    width: 500px;
+    height: 350px;
 }
